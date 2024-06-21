@@ -1,47 +1,60 @@
 <?php
+// sessao.php
 
-class Sessao {
-    
-    private static $instancia = array();
-    
+class Sessao
+{
+
+    private static $instancia = null;
+
     /**
-     * 
-     * @return Session
+     * Instanciar a classe Sessao
+     * @return Sessao
      */
-    public static function instanciar() {
-        
-        if (self::$instancia =! null) {
+    public static function instanciar()
+    {
+        if (self::$instancia === null) {
             self::$instancia = new Sessao();
         }
-        
         return self::$instancia;
     }
-    
-    public function set($chave, $valor) {
-		session_start();
+
+    /**
+     * Construtor privado para iniciar a sessão
+     */
+    private function __construct()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
+    /**
+     * Definir um valor na sessão
+     * @param string $chave
+     * @param mixed $valor
+     */
+    public function set($chave, $valor)
+    {
         $_SESSION[$chave] = $valor;
-        session_write_close();
     }
-    
-    public function get($chave) {
-        session_start();
-        $value = $_SESSION[$chave];
-        session_write_close();
-        return $value;
+
+    /**
+     * Obter um valor da sessão
+     * @param string $chave
+     * @return mixed
+     */
+    public function get($chave)
+    {
+        return isset($_SESSION[$chave]) ? $_SESSION[$chave] : null;
     }
-    
-    public function existe($chave) {
-		if(!isset($_SESSION)){
-			session_start();
-		}
-        if (isset($_SESSION[$chave]) && (!empty($_SESSION[$chave]))) {
-            session_write_close();
-            return true;
-        }
-        else {
-            session_write_close();
-            return false;
-        }
+
+    /**
+     * Verificar se uma chave existe na sessão
+     * @param string $chave
+     * @return bool
+     */
+    public function existe($chave)
+    {
+        return isset($_SESSION[$chave]) && (!empty($_SESSION[$chave]));
     }
 }
-
