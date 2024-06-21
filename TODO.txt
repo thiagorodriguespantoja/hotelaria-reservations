@@ -1,6 +1,6 @@
 =================== COISAS EM ANDAMENTO
 
-@luciano
+@euthiagorpantoja
 
 == Trocar todos os acessos a banco de dados para um modo seguro.
     Visualizar o arquivo "_outros/prevenir injection.txt" para ver o modelo de uso
